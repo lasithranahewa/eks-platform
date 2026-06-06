@@ -1,0 +1,136 @@
+# helm-charts/online-boutique/values.yaml
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+
+# ─── Per-service configuration ────────────────────────────────────────────────
+frontend:
+  image:
+    repository: gcr.io/google-samples/microservices-demo/frontend
+    tag: "v0.9.0"
+    pullPolicy: IfNotPresent
+  replicas: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+  nodeSelector:
+    workload-type: application
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: true
+    className: nginx
+    host: boutique.local
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+
+cartService:
+  image:
+    repository: gcr.io/google-samples/microservices-demo/cartservice
+    tag: "v0.9.0"
+  replicas: 1
+  resources:
+    requests:
+      cpu: 200m
+      memory: 64Mi
+    limits:
+      cpu: 300m
+      memory: 128Mi
+
+productCatalogService:
+  image:
+    repository: gcr.io/google-samples/microservices-demo/productcatalogservice
+    tag: "v0.9.0"
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+currencyService:
+  image:
+    repository: gcr.io/google-samples/microservices-demo/currencyservice
+    tag: "v0.9.0"
+  replicas: 1
+
+paymentService:
+  image:
+    repository: gcr.io/google-samples/microservices-demo/paymentservice
+    tag: "v0.9.0"
+  replicas: 1
+
+shippingService:
+  image:
+    repository: gcr.io/google-samples/microservices-demo/shippingservice
+    tag: "v0.9.0"
+  replicas: 1
+
+emailService:
+  image:
+    repository: gcr.io/google-samples/microservices-demo/emailservice
+    tag: "v0.9.0"
+  replicas: 1
+
+checkoutService:
+  image:
+    repository: gcr.io/google-samples/microservices-demo/checkoutservice
+    tag: "v0.9.0"
+  replicas: 1
+
+recommendationService:
+  image:
+    repository: gcr.io/google-samples/microservices-demo/recommendationservice
+    tag: "v0.9.0"
+  replicas: 1
+
+adService:
+  image:
+    repository: gcr.io/google-samples/microservices-demo/adservice
+    tag: "v0.9.0"
+  replicas: 1
+
+# ─── Redis ─────────────────────────────────────────────────────────────────────
+redis:
+  enabled: true
+  image:
+    repository: redis
+    tag: "7.2-alpine"
+  resources:
+    requests:
+      cpu: 70m
+      memory: 200Mi
+
+# ─── Load Generator ────────────────────────────────────────────────────────────
+loadGenerator:
+  enabled: false  # Enable in non-prod to generate traffic
+  image:
+    repository: gcr.io/google-samples/microservices-demo/loadgenerator
+    tag: "v0.9.0"
+  users: 10
+
+# ─── Monitoring ────────────────────────────────────────────────────────────────
+monitoring:
+  serviceMonitor:
+    enabled: false  # Enable when Prometheus is installed
+    namespace: monitoring
+
+# ─── Security ─────────────────────────────────────────────────────────────────
+podSecurityContext:
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
