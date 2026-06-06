@@ -1,0 +1,23 @@
+# kubernetes/base/argocd-rbac.yaml
+# Grant team members appropriate access to Argo CD
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argocd
+data:
+  policy.default: role:readonly
+  policy.csv: |
+    # Admins can do everything
+    p, role:org-admin, applications, *, */*, allow
+    p, role:org-admin, clusters, get, *, allow
+    p, role:org-admin, repositories, *, *, allow
+    p, role:org-admin, projects, *, *, allow
+
+    # Developers can sync their own apps but not delete
+    p, role:developer, applications, get, applications/*, allow
+    p, role:developer, applications, sync, applications/*, allow
+
+    # Map GitHub teams to roles
+    g, YOUR_GITHUB_ORG:platform-team, role:org-admin
+    g, YOUR_GITHUB_ORG:dev-team, role:developer

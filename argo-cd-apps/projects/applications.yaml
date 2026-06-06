@@ -1,0 +1,26 @@
+# argo-cd-apps/projects/applications.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: applications
+  namespace: argocd
+spec:
+  description: "Business applications"
+  sourceRepos:
+    - "https://github.com/lasithranahewa/eks-platform"
+  destinations:
+    - namespace: boutique
+      server: https://kubernetes.default.svc
+    - namespace: boutique-staging
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  roles:
+    - name: developer
+      description: Read-only access for developers
+      policies:
+        - p, proj:applications:developer, applications, get, applications/*, allow
