@@ -1,0 +1,25 @@
+# argo-cd-apps/app-of-apps/root.yaml
+# This is the ONLY thing you deploy manually — it manages everything else
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/lasithranahewa/eks-platform
+    targetRevision: main
+    path: argo-cd-apps/applications
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
