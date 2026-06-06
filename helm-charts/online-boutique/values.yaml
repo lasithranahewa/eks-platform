@@ -134,3 +134,6 @@ containerSecurityContext:
   capabilities:
     drop:
       - ALL
+# ─── OpenTelemetry Collector (Required by newer Google templates) ───
+opentelemetryCollector:
+  create: false
