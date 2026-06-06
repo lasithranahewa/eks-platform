@@ -1,0 +1,33 @@
+# argo-cd-apps/applications/kube-prometheus-stack.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  project: platform
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: "56.6.2"
+    helm:
+      valueFiles:
+        # Reference to our Git repo values (Argo CD multi-source)
+        - $values/helm-charts/observability/values-local.yaml
+  sources:
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
+      targetRevision: "56.6.2"
+    - repoURL: https://github.com/lasithranahewa/eks-platform
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: false      # Don't auto-prune monitoring stack
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true    # Needed for large CRDs
