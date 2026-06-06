@@ -137,3 +137,11 @@ containerSecurityContext:
 # ─── OpenTelemetry Collector (Required by newer Google templates) ───
 opentelemetryCollector:
   create: false
+
+# ─── Upstream Google Chart Requirements (To prevent nil pointers) ───
+networkPolicies:
+  create: false
+serviceAccounts:
+  create: false
+authorizationPolicies:
+  create: false
