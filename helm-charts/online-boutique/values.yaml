@@ -145,3 +145,29 @@ serviceAccounts:
   create: false
 authorizationPolicies:
   create: false
+
+# ─── Activate the Microservices ───
+adService:
+  create: true
+cartService:
+  create: true
+checkoutService:
+  create: true
+currencyService:
+  create: true
+emailService:
+  create: true
+frontend:
+  create: true
+loadGenerator:
+  create: true
+paymentService:
+  create: true
+productCatalogService:
+  create: true
+recommendationService:
+  create: true
+shippingService:
+  create: true
+inClusterRedis:
+  create: true
