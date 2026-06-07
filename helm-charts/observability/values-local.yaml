@@ -14,6 +14,11 @@ kube-prometheus-stack:
       auth.anonymous:
         enabled: true
         org_role: Viewer
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts:
+        - grafana.l4sith.dev
     # Pre-load dashboards
     dashboardProviders:
       dashboardproviders.yaml:
