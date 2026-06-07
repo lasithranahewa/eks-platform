@@ -30,7 +30,11 @@ frontend:
   ingress:
     enabled: true
     className: nginx
-    host: boutique.l4sith.dev
+    hosts:
+      - host: boutique.l4sith.dev
+        paths:
+          - path: /
+            pathType: Prefix
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
   virtualService:
