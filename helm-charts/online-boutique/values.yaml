@@ -139,7 +139,7 @@ redis:
 loadGenerator:
   name: loadgenerator
   create: true
-  enabled: false  # Enable in non-prod to generate traffic
+  enabled: true  # Enable in non-prod to generate traffic
   image:
     repository: gcr.io/google-samples/microservices-demo/loadgenerator
     tag: "v0.9.0"
