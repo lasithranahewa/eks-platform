@@ -2,8 +2,13 @@ global:
   imageRegistry: ""
   imagePullSecrets: []
 
+images:
+  repository: gcr.io/google-samples/microservices-demo
+  tag: "v0.9.0"
+
 # ─── Per-service configuration ────────────────────────────────────────────────
 frontend:
+  name: frontend
   create: true
   image:
     repository: gcr.io/google-samples/microservices-demo/frontend
@@ -32,6 +37,7 @@ frontend:
     create: false
 
 cartService:
+  name: cartservice
   create: true
   image:
     repository: gcr.io/google-samples/microservices-demo/cartservice
@@ -46,6 +52,7 @@ cartService:
       memory: 128Mi
 
 productCatalogService:
+  name: productcatalogservice
   create: true
   image:
     repository: gcr.io/google-samples/microservices-demo/productcatalogservice
@@ -60,6 +67,7 @@ productCatalogService:
       memory: 128Mi
 
 currencyService:
+  name: currencyservice
   create: true
   image:
     repository: gcr.io/google-samples/microservices-demo/currencyservice
@@ -67,6 +75,7 @@ currencyService:
   replicas: 1
 
 paymentService:
+  name: paymentservice
   create: true
   image:
     repository: gcr.io/google-samples/microservices-demo/paymentservice
@@ -74,6 +83,7 @@ paymentService:
   replicas: 1
 
 shippingService:
+  name: shippingservice
   create: true
   image:
     repository: gcr.io/google-samples/microservices-demo/shippingservice
@@ -81,6 +91,7 @@ shippingService:
   replicas: 1
 
 emailService:
+  name: emailservice
   create: true
   image:
     repository: gcr.io/google-samples/microservices-demo/emailservice
@@ -88,6 +99,7 @@ emailService:
   replicas: 1
 
 checkoutService:
+  name: checkoutservice
   create: true
   image:
     repository: gcr.io/google-samples/microservices-demo/checkoutservice
@@ -95,6 +107,7 @@ checkoutService:
   replicas: 1
 
 recommendationService:
+  name: recommendationservice
   create: true
   image:
     repository: gcr.io/google-samples/microservices-demo/recommendationservice
@@ -102,6 +115,7 @@ recommendationService:
   replicas: 1
 
 adService:
+  name: adservice
   create: true
   image:
     repository: gcr.io/google-samples/microservices-demo/adservice
@@ -123,6 +137,7 @@ redis:
 
 # ─── Load Generator ────────────────────────────────────────────────────────────
 loadGenerator:
+  name: loadgenerator
   create: true
   enabled: false  # Enable in non-prod to generate traffic
   image:
@@ -145,6 +160,10 @@ podSecurityContext:
   seccompProfile:
     type: RuntimeDefault
 
+seccompProfile:
+  enable: false
+  type: RuntimeDefault
+
 containerSecurityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
@@ -154,6 +173,7 @@ containerSecurityContext:
 
 # ─── Upstream Google Chart Requirements ───────────────────────────────────────
 opentelemetryCollector:
+  name: opentelemetrycollector
   create: false
 networkPolicies:
   create: false
@@ -161,3 +181,26 @@ serviceAccounts:
   create: false
 authorizationPolicies:
   create: false
+
+googleCloudOperations:
+  profiler: false
+  tracing: false
+  metrics: false
+
+cartDatabase:
+  type: "redis"
+  connectionString: "redis-cart:6379"
+  inClusterRedis:
+    create: true
+    name: redis-cart
+    publicRepository: true
+  externalRedisTlsOrigination:
+    enable: false
+
+shoppingAssistantService:
+  name: shoppingassistantservice
+  create: false
+
+sidecars:
+  create: false
+
