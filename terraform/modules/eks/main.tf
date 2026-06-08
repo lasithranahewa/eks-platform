@@ -29,9 +29,6 @@ module "eks" {
     # CoreDNS for service discovery
     coredns = {
       most_recent = true
-      configuration_values = jsonencode({
-        computeType = "Fargate" # Optional: run CoreDNS on Fargate
-      })
     }
 
     # VPC CNI for pod networking
