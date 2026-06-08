@@ -45,13 +45,16 @@ Planned features:
 
 ### Completed ✅
 
-* [x] Local multi-node Kind cluster
-* [x] Custom Helm packaging
-* [x] GitOps with Argo CD
-* [x] App-of-Apps pattern
-* [x] Terraform-managed AWS infrastructure
-* [x] EKS cluster provisioning
-* [x] KMS encryption + remote state setup
+* **Phase 1: Local Development with Kind** ([PR #1](https://github.com/lasithranahewa/eks-platform/pull/1))
+  * [x] Local multi-node Kind cluster
+  * [x] Custom Helm packaging
+* **Phase 2: GitOps Locally with Argo CD** ([PR #5](https://github.com/lasithranahewa/eks-platform/pull/5))
+  * [x] GitOps with Argo CD
+  * [x] App-of-Apps pattern
+* **Phase 3: AWS EKS with Terraform** ([PR #7](https://github.com/lasithranahewa/eks-platform/pull/7))
+  * [x] Terraform-managed AWS infrastructure
+  * [x] EKS cluster provisioning
+  * [x] KMS encryption + remote state setup
 
 ### In Progress 🚧
 
@@ -95,5 +98,3 @@ Planned features:
 * External Secrets
 * Karpenter
 * HPA / KEDA
-
-
