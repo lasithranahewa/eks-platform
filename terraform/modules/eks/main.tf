@@ -149,22 +149,6 @@ module "eks" {
   })
 }
 
-# ─── KMS Key for Secrets Encryption ──────────────────────────────────────────
-resource "aws_kms_key" "eks" {
-  description             = "EKS Secret Encryption Key — ${var.cluster_name}"
-  deletion_window_in_days = 7
-  enable_key_rotation     = true
-
-  tags = merge(var.tags, {
-    Name = "${var.cluster_name}-eks-secrets"
-  })
-}
-
-resource "aws_kms_alias" "eks" {
-  name          = "alias/${var.cluster_name}-eks-secrets"
-  target_key_id = aws_kms_key.eks.key_id
-}
-
 # ─── IRSA for VPC CNI ─────────────────────────────────────────────────────────
 module "vpc_cni_irsa_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
