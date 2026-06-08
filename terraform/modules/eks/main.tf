@@ -18,10 +18,8 @@ module "eks" {
   subnet_ids               = var.private_subnet_ids # Worker nodes in private subnets
   control_plane_subnet_ids = var.intra_subnet_ids   # Control plane ENIs in intra subnets
 
-  # Security: Enable Secrets encryption with AWS KMS
   cluster_encryption_config = {
-    resources        = ["secrets"]
-    provider_key_arn = aws_kms_key.eks.arn
+    resources = ["secrets"]
   }
 
   # Cluster Add-ons — managed by AWS, auto-updated
