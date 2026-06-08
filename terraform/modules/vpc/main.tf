@@ -82,7 +82,25 @@ resource "aws_iam_role" "flow_log" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "flow_log" {
-  role       = aws_iam_role.flow_log.name
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+resource "aws_iam_role_policy" "flow_log" {
+  name = "${var.name}-flow-log-policy"
+  role = aws_iam_role.flow_log.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogStream",
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents",
+        ]
+        Resource = [
+          aws_cloudwatch_log_group.flow_log.arn,
+          "${aws_cloudwatch_log_group.flow_log.arn}:*",
+        ]
+      },
+    ]
+  })
 }
