@@ -95,7 +95,7 @@ module "eks" {
 
   # Dev: public endpoint for easy access; prod: false
   enable_public_endpoint = var.environment == "dev"
-  public_access_cidrs    = ["0.0.0.0/0"] # Open to all for dev; lock down in prod
+  public_access_cidrs    = ["10.0.0.0/19", "10.0.32.0/19", "10.0.64.0/19"] # Restrict to private subnet ranges
 
   tags = local.common_tags
 }
